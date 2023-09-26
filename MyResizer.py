@@ -57,8 +57,8 @@ def resize():
 
                 # Path workaround
                 file_name = str(item)
-                f_path = os.path.join(f_path, file_name[:file_name.find('.')])
-                imResize.save(f_path + '_resized.jpg', 'JPEG', quality=90)
+                final_path = os.path.join(f_path, file_name[:file_name.find('.')])
+                imResize.save(final_path + '_resized.jpg', 'JPEG', quality=90)
                 print("Pomyślnie zmniejszono plik "+file_name)
 
             except Exception as error:
