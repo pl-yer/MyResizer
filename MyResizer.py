@@ -1,6 +1,7 @@
 #!/usr/bin/python
 from PIL import Image
 import os, argparse, sys
+import time
 
 desc = "====== MyResampler - made for mum with love ======"
 f_path = ""
@@ -17,26 +18,28 @@ parser.add_argument('--y_size', dest='y_size', type=str, help='Rozmiar osi Y zdj
 # Run method to parse the arguments
 args = parser.parse_args()
 
-try:
-    if args.prompt:
-        path = str(input("Podaj nazwę podfolderu do resamplingu: "))
-        runpath = os.getcwd()+'\\'+path+'\\'
-    else:
-        runpath = os.getcwd()+'\\'+args.runpath+'\\'
+while True:
+    try:
+        if args.prompt:
+            path = str(input("Podaj nazwę podfolderu do resamplingu: "))
+            runpath = os.getcwd()+'\\'+path+'\\'
+        else:
+            runpath = os.getcwd()+'\\'+args.runpath+'\\'
 
-    dirs = os.listdir(runpath)
+        dirs = os.listdir(runpath)
 
-    folder = "resampled"
-    f_path = os.path.join(args.runpath, folder)
-    if not os.path.exists(f_path):
-        os.makedirs(f_path)
-        print("Stworzono folder "+str(folder))
-        print(f_path)
+        folder = "resampled"
+        f_path = os.path.join(runpath, folder)
+        if not os.path.exists(f_path):
+            os.makedirs(f_path)
+            print("Stworzono folder "+str(folder))
+            print(f_path)
+        break
 
-except Exception as error:
-    print("Podana ścieżka nie istnieje!")
-    input("Naciśnij klawisz żeby zakończyć.")
-    sys.exit()
+    except Exception as error:
+        print("Podana ścieżka nie istnieje!")
+        print("Spróbuj jeszcze raz.")
+
 
 def resize():
     global f_path
@@ -57,8 +60,8 @@ def resize():
 
                 # Path workaround
                 file_name = str(item)
-                final_path = os.path.join(f_path, file_name[:file_name.find('.')])
-                imResize.save(final_path + '_resized.jpg', 'JPEG', quality=90)
+                final_path = os.path.join(f_path, file_name)
+                imResize.save(final_path, 'JPEG', quality=90)
                 print("Pomyślnie zmniejszono plik "+file_name)
 
             except Exception as error:
@@ -67,4 +70,4 @@ def resize():
 
 resize()
 print("Program zakończył działanie.")
-input("Naciśnij klawisz żeby zakończyć.")
+input("Naciśnij ENTER żeby zakończyć.")
